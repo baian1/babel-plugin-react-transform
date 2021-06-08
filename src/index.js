@@ -14,7 +14,8 @@ export default function({ types: t, template }) {
     return !!find(node.body.body, classMember => {
       return (
         t.isClassMethod(classMember) &&
-        t.isIdentifier(classMember.key, { name: 'render' })
+        (t.isIdentifier(classMember.key, { name: 'render' }) || 
+        t.isIdentifier(classMember.key, { name: 'renderContent' }))
       );
     });
   }
@@ -171,7 +172,7 @@ export default function({ types: t, template }) {
     normalizeOptions(options) {
       return {
         factoryMethods: options.factoryMethods || ['React.createClass'],
-        superClasses: options.superClasses || ['React.Component', 'React.PureComponent', 'Component', 'PureComponent'],
+        superClasses: options.superClasses || ['React.Component', 'React.PureComponent', 'Component', 'PureComponent', 'BaseInnerComponent', 'BaseComponent'],
         transforms: options.transforms.map(opts => {
           return {
             transform: opts.transform,
